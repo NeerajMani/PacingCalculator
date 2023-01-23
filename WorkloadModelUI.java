@@ -62,9 +62,9 @@ public class WorkloadModelUI {
                 int baseline = Integer.parseInt(baselineField.getText());
                 int thinkTime = Integer.parseInt(thinkTimeField.getText());
 
-                double I = (double) tph / 3600;
-                double R = (double) (duration - (baseline + thinkTime) * I);
-                double pacing = R / vusers;
+                double I = (double) tph / duration;
+                double R = (double) ((baseline + thinkTime) * I);
+                double pacing = vusers - R;
 
                 pacingField.setText(String.valueOf(pacing));
             }
