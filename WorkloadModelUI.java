@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.text.DecimalFormat;
 
 public class WorkloadModelUI {
     private JFrame frame;
@@ -56,17 +57,30 @@ public class WorkloadModelUI {
         calculateButton = new JButton("Calculate");
         calculateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int vusers = Integer.parseInt(vusersField.getText());
-                int tph = Integer.parseInt(tphField.getText());
-                int duration = Integer.parseInt(durationField.getText());
-                int baseline = Integer.parseInt(baselineField.getText());
-                int thinkTime = Integer.parseInt(thinkTimeField.getText());
+                double vusers = Double.parseDouble(vusersField.getText());
+                double tph = Double.parseDouble(tphField.getText());
+                double duration = Double.parseDouble(durationField.getText());
+                double baseline = Double.parseDouble(baselineField.getText());
+                double thinkTime = Double.parseDouble(thinkTimeField.getText());
 
                 double I = (double) tph / duration;
                 double R = (double) ((baseline + thinkTime) * I);
                 double pacing = vusers - R;
-
+                DecimalFormat df = new DecimalFormat("#.##");
+                pacing = Double.parseDouble(df.format(pacing));
                 pacingField.setText(String.valueOf(pacing));
+            }
+        });
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                vusersField.setText("");
+                tphField.setText("");
+                durationField.setText("");
+                baselineField.setText("");
+                thinkTimeField.setText("");
+                pacingField.setText("");
             }
         });
 
@@ -124,8 +138,12 @@ public class WorkloadModelUI {
 
         c.gridx = 0;
         c.gridy = 6;
-        c.gridwidth = 1;
+        // c.gridwidth = 1;
         frame.add(calculateButton, c);
+
+        c.gridx = 1;
+        c.gridy = 6;
+        frame.add(clearButton, c);
 
         frame.setVisible(true);
 
